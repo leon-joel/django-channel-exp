@@ -1,0 +1,17 @@
+Redisの起動
+
+  $ docker-compose up
+
+
+メッセージ送信の実験
+
+  (venv) $ python manage.py shell
+
+  >>> import channels.layers
+  >>> channel_layer = channels.layers.get_channel_layer()
+  >>> from asgiref.sync import async_to_sync
+  >>> async_to_sync(channel_layer.send)('test_channel', {'type': 'hello'})
+  >>> async_to_sync(channel_layer.receive)('test_channel')
+
+  {'type': 'hello'} と表示されたら成功
+  

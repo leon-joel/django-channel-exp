@@ -1,0 +1,10 @@
+# docker-compose のフォーマットバージョン
+version: '3.7'
+
+services:
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    # volumes:
+    #   - "./data/redis:/data"
