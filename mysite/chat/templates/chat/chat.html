@@ -64,6 +64,9 @@
                 <form action="" onsubmit="onsubmitButton_JoinChat(); return false;" style="text-align: center; width: 100%;">
                     User name<br />
                     <input type="text" id="input_username" placeholder="Enter User name" autofocus><br /><br />
+                    Room name - optional<br />
+                    <input type="text" id="input_roomname" placeholder="Enter Room name"><br />
+                    Room name must be a string containing only ASCII alphanumerics, hyphens, or periods.<br /><br />
                     <input type="submit" value="Join Chat" />
                 </form>
             </div>
@@ -71,6 +74,7 @@
             <div id="div_chat_screen">
                 <button onclick="onclickButton_LeaveChat()">Leave Chat.</button><br />
                 User name : <input type="text" id="text_username" readonly="readonly"><br />
+                Room Name : <input type="text" id="text_roomname" readonly="readonly"><br />
                 <!-- エンターキーによるボタン押下を行うために、<button>ではなく<form>と<input type="submit">を使用。
                 ボタン押下(=submit)時にページリロードが行われないように、onsubmitの設定の最後に"return false;"を追加。-->
                 <form action="" onsubmit="onsubmitButton_Send(); return false;">
@@ -87,8 +91,10 @@
         const g_elementDivJoinScreen = document.getElementById( "div_join_screen" );
         const g_elementDivChatScreen = document.getElementById( "div_chat_screen" );
         const g_elementInputUserName = document.getElementById( "input_username" );
+        const g_elementInputRoomName = document.getElementById( "input_roomname" );
 
         const g_elementTextUserName = document.getElementById( "text_username" );
+        const g_elementTextRoomName = document.getElementById( "text_roomname" );
 
         const g_elementInputMessage = document.getElementById( "input_message" );
         const g_elementListMessage = document.getElementById( "list_message" );
@@ -108,8 +114,12 @@
             }
             g_elementTextUserName.value = strInputUserName;
 
+            // ルーム名
+            let strInputRoomName = g_elementInputRoomName.value;
+            g_elementTextRoomName.value = strInputRoomName;
+
             // サーバーに"join"を送信
-            g_socket.send( JSON.stringify( { "data_type": "join", "username": strInputUserName } ) );
+            g_socket.send( JSON.stringify( { "data_type": "join", "username": strInputUserName, "roomname": strInputRoomName } ) );
 
             // 画面の切り替え
             g_elementDivJoinScreen.style.display = "none";  // 参加画面の非表示
